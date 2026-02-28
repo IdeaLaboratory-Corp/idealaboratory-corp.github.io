@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idea Laboratory | Public Access R&D</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+--bg: #0a0a0c;
+--bg-secondary: #111114;
+--fg: #e8e6e3;
+--muted: #a8a8a8;
+--accent-cyan: #00e5cc;
+--accent-magenta: #e930a8;
+--accent-amber: #f5a623;
+--card: rgba(18, 18, 22, 0.85);
+--border: rgba(255, 255, 255, 0.08);
+--glow-cyan: rgba(0, 229, 204, 0.4);
+--glow-magenta: rgba(233, 48, 168, 0.4);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+font-family: 'Space Mono', monospace;
+background: var(--bg);
+color: var(--fg);
+overflow-x: hidden;
+line-height: 1.7;
+-webkit-font-smoothing: antialiased;
+}
+
+/* CRT Scanlines */
+.scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15) 0px, rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px); opacity: 0.3; }
+
+/* Grid Background */
+.tech-grid { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; background-image: linear-gradient(rgba(0, 229, 204, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 204, 0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+
+/* Navigation */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1rem 2rem; background: rgba(10, 10, 12, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); transition: transform 0.3s ease; }
+.nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.15em; color: var(--fg); display: flex; align-items: center; gap: 0.5rem; }
+.nav-logo::before { content: ''; display: inline-block; width: 12px; height: 12px; background: var(--accent-cyan); box-shadow: 0 0 10px var(--glow-cyan); }
+.nav-links { display: flex; gap: 2rem; }
+.nav-link { font-size: 0.75rem; color: var(--muted); text-decoration: none; letter-spacing: 0.15em; transition: color 0.3s ease; }
+.nav-link:hover { color: var(--accent-cyan); }
+.nav-btn { font-size: 0.75rem; padding: 0.5rem 1rem; border: 1px solid var(--accent-cyan); color: var(--accent-cyan); border-radius: 2px; text-decoration: none; letter-spacing: 0.1em; transition: all 0.3s; }
+.nav-btn:hover { background: rgba(0, 229, 204, 0.1); box-shadow: 0 0 15px var(--glow-cyan); }
+@media (max-width: 768px) { .nav-links { display: none; } }
+
+/* Hero Section */
+.hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; text-align: center; padding: 2rem; background: radial-gradient(circle at center, rgba(0, 229, 204, 0.05) 0%, transparent 60%); }
+.hero-badge { font-size: 0.75rem; color: var(--accent-cyan); letter-spacing: 0.3em; margin-bottom: 1.5rem; padding: 0.5rem 1rem; border: 1px solid rgba(0, 229, 204, 0.3); border-radius: 50px; background: rgba(0, 229, 204, 0.05); }
+.hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.5rem, 8vw, 7rem); line-height: 1.1; letter-spacing: 0.05em; color: var(--fg); margin-bottom: 1rem; text-shadow: 0 0 30px rgba(255,255,255,0.1); }
+.hero-subtitle { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--muted); max-width: 800px; margin: 0 auto 3rem; line-height: 1.6; }
+.hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-primary { padding: 1rem 2rem; background: var(--accent-cyan); color: var(--bg); font-weight: bold; text-decoration: none; font-size: 0.9rem; letter-spacing: 0.1em; border-radius: 2px; transition: all 0.3s ease; box-shadow: 0 0 20px var(--glow-cyan); }
+.btn-primary:hover { background: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.8); }
+.btn-secondary { padding: 1rem 2rem; border: 1px solid var(--border); color: var(--fg); text-decoration: none; font-size: 0.9rem; letter-spacing: 0.1em; border-radius: 2px; transition: all 0.3s ease; background: var(--card); }
+.btn-secondary:hover { border-color: var(--accent-magenta); color: var(--accent-magenta); box-shadow: 0 0 20px var(--glow-magenta); }
+
+/* Section Globals */
+section { padding: 8rem 2rem; position: relative; z-index: 5; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-eyebrow { font-size: 0.8rem; color: var(--accent-magenta); letter-spacing: 0.2em; margin-bottom: 0.5rem; display: block; }
+.section-title { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; letter-spacing: 0.05em; color: var(--fg); }
+
+/* The Crisis Section */
+.crisis-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 3rem; }
+@media (min-width: 768px) { .crisis-grid { grid-template-columns: repeat(3, 1fr); } }
+.stat-card { background: var(--card); border: 1px solid var(--border); padding: 3rem 2rem; text-align: center; border-radius: 4px; transition: transform 0.3s ease; }
+.stat-card:hover { transform: translateY(-10px); border-color: var(--accent-magenta); box-shadow: 0 10px 30px rgba(233, 48, 168, 0.1); }
+.stat-number { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; color: var(--accent-magenta); line-height: 1; margin-bottom: 1rem; text-shadow: 0 0 20px var(--glow-magenta); }
+.stat-text { font-size: 0.85rem; color: var(--muted); }
+.crisis-text { text-align: left; max-width: 900px; margin: 4rem auto 0; font-size: 1.1rem; line-height: 1.8; color: var(--fg); border-left: 3px solid var(--accent-magenta); padding-left: 2rem; }
+
+/* The Protocol (Solution) */
+.protocol-container { border-left: 2px solid rgba(0, 229, 204, 0.3); padding-left: 2rem; margin-left: 1rem; }
+.protocol-step { position: relative; margin-bottom: 4rem; }
+.protocol-step::before { content: ''; position: absolute; left: -2.45rem; top: 0; width: 16px; height: 16px; background: var(--bg); border: 2px solid var(--accent-cyan); border-radius: 50%; box-shadow: 0 0 10px var(--glow-cyan); }
+.step-number { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--accent-cyan); margin-bottom: 0.5rem; }
+.step-title { font-size: 1.2rem; color: var(--fg); font-weight: bold; margin-bottom: 1rem; }
+.step-desc { font-size: 0.95rem; color: var(--muted); max-width: 600px; line-height: 1.7; }
+
+/* Business Model */
+.model-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 768px) { .model-grid { grid-template-columns: 1fr 1fr; } }
+.model-card { background: linear-gradient(135deg, rgba(18,18,22,0.9), rgba(0,229,204,0.05)); border: 1px solid var(--border); padding: 3rem; border-radius: 4px; }
+.model-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--fg); margin-bottom: 1rem; letter-spacing: 0.05em; }
+.model-list { list-style: none; margin-top: 1.5rem; }
+.model-list li { margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--muted); display: flex; gap: 1rem; line-height: 1.6; }
+.model-list li::before { content: '→'; color: var(--accent-cyan); font-weight: bold; }
+
+/* The Ask / Contact */
+.ask-section { text-align: center; background: radial-gradient(circle at center, rgba(233, 48, 168, 0.05) 0%, transparent 60%); }
+.ask-box { max-width: 800px; margin: 0 auto; background: var(--card); border: 1px solid var(--accent-magenta); padding: 4rem 2rem; border-radius: 4px; box-shadow: 0 0 30px rgba(233, 48, 168, 0.1); }
+.ask-title { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--fg); margin-bottom: 1rem; }
+.ask-desc { font-size: 1.1rem; color: var(--muted); margin-bottom: 3rem; line-height: 1.8; }
+
+/* Animations */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+*, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div class="tech-grid"></div>
+
+<!-- Navigation -->
+<nav id="navbar">
+<div class="nav-content">
+<div class="nav-logo">IDEA LABORATORY</div>
+<div class="nav-links">
+<a href="#mission" class="nav-link">THE MISSION</a>
+<a href="#protocol" class="nav-link">R&D INFRASTRUCTURE</a>
+<a href="#model" class="nav-link">SUSTAINABILITY</a>
+</div>
+<a href="#invest" class="nav-btn">INITIATE NODE 01</a>
+</div>
+</nav>
+
+<!-- Hero Section -->
+<header class="hero">
+<div class="hero-badge">PUBLIC ACCESS DEEP-TECH R&D</div>
+<h1 class="hero-title">BEYOND THE <span style="color: var(--accent-cyan);">MAKERSPACE.</span></h1>
+<p class="hero-subtitle">Makerspaces give you tools and leave you to figure it out. Idea Laboratory gives you an entire R&D department. We are an institutional-grade, public-access hardware laboratory bridging the gap between independent innovators and the realities of deep-tech engineering.</p>
+<div class="hero-cta">
+<a href="#invest" class="btn-primary">BACK THE MISSION</a>
+<a href="#mission" class="btn-secondary">READ THE MANIFESTO</a>
+</div>
+</header>
+
+<!-- The Crisis / Mission Section -->
+<section id="mission">
+<div class="section-inner reveal">
+<div class="section-header">
+<span class="section-eyebrow">THE GATEKEEPING CRISIS</span>
+<h2 class="section-title">R&D IS FOR EVERYONE.</h2>
+</div>
+<p style="text-align: center; color: var(--muted); max-width: 800px; margin: 0 auto; font-size: 1.1rem;">
+Currently, proper Research & Development is locked behind massive corporate budgets, elite engineering university access, or highly expensive design agencies. 
+The Indian government attempted to solve this by building AICTE-IDEA Labs nationwide, but the reality is staggering:
+</p>
+<div class="crisis-grid">
+<div class="stat-card">
+<div class="stat-number">12,000+</div>
+<div class="stat-text">Ideas generated by students lacking hardware engineering expertise.</div>
+</div>
+<div class="stat-card" style="border-color: var(--accent-magenta);">
+<div class="stat-number">217</div>
+<div class="stat-text">Startups formally registered. A conversion rate of less than 2%.</div>
+</div>
+<div class="stat-card">
+<div class="stat-number">100%</div>
+<div class="stat-text">Labs run by overloaded volunteer faculty, leaving high-end equipment unused.</div>
+</div>
+</div>
+<div class="crisis-text">
+<p style="margin-bottom: 1rem;"><strong>The Root Cause:</strong> Prototyping is just a byproduct of a much larger process. Anyone can rent a 3D printer, but simulating avionics, designing custom PCBs, and understanding composite material physics requires a guided R&D ecosystem.</p>
+<p>Idea Laboratory isn't a pay-for-service design agency. It is a democratization platform. We provide the <strong>deep-tech engineering infrastructure</strong> required to transform the common man's raw idea into a physics-backed, investor-ready reality.</p>
+</div>
+</div>
+</section>
+
+<!-- The Protocol / Solution Section -->
+<section id="protocol" style="background: rgba(10,10,12,0.6); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+<div class="section-inner reveal">
+<div class="section-header">
+<span class="section-eyebrow">THE CAPABILITY</span>
+<h2 class="section-title">INSTITUTIONAL INFRASTRUCTURE</h2>
+</div>
+<div style="display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: center;">
+<div style="max-width: 500px;">
+<h3 style="font-size: 1.8rem; font-family: 'Bebas Neue', sans-serif; color: var(--fg); margin-bottom: 1rem; letter-spacing: 0.05em;">CO-DEVELOPMENT, NOT CLIENT HAND-OFFS.</h3>
+<p style="color: var(--muted); font-size: 1rem; line-height: 1.8;">Our process is designed to empower the creator. We don't just build the product for them; we synthesize the science, fabricate the hardware, and provide the technical blueprints so the innovator actually owns their R&D.</p>
+</div>
+<div class="protocol-container">
+<div class="protocol-step">
+<div class="step-number">01</div>
+<div class="step-title">Conceptual Synthesis</div>
+<div class="step-desc">We break down the innovator's concept into fundamental physics, chemistry, and circuit theory. We simulate mechanical interactions before any physical material is cut.</div>
+</div>
+<div class="protocol-step">
+<div class="step-number">02</div>
+<div class="step-title">Deep-Tech Fabrication</div>
+<div class="step-desc">Beyond basic 3D printing. We utilize custom CNC machining, Kevlar/Carbon Fiber composite layups, custom PCB routing, and avionics integration to build true "First Article" prototypes.</div>
+</div>
+<div class="protocol-step">
+<div class="step-number">03</div>
+<div class="step-title">Open Knowledge Transfer</div>
+<div class="step-desc">True democratization requires transparency. Innovators leave the lab with complete CAD files, BOMs, and technical documentation so the product is reproducible without institutional dependency.</div>
+</div>
+<div class="protocol-step" style="margin-bottom: 0;">
+<div class="step-number">04</div>
+<div class="step-title">Venture Ignition</div>
+<div class="step-desc">Armed with a functional, physical MVP and a rigorous engineering spec sheet, the innovator is now equipped to secure incubator placement or venture capital.</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Business Model Section -->
+<section id="model">
+<div class="section-inner reveal">
+<div class="section-header">
+<span class="section-eyebrow">THE CROSS-SUBSIDY</span>
+<h2 class="section-title">THE ECONOMIC ENGINE</h2>
+<p style="color: var(--muted); max-width: 700px; margin: 1rem auto 0; font-size: 1rem;">How does a public-access R&D lab survive without charging innovators agency-level fees? By employing a Robin Hood economic model: corporate operations subsidize public democratization.</p>
+</div>
+<div class="model-grid">
+<div class="model-card">
+<h3>Corporate Subsidy (B2B)</h3>
+<p style="color: var(--muted); font-size: 0.95rem; line-height: 1.7;">The physical infrastructure and tooling overhead of Idea Laboratory are maintained entirely by our high-margin, professional engineering channels.</p>
+<ul class="model-list">
+<li><strong>High-Tier Consultancy:</strong> Providing rapid prototyping, defense tech, and hardware R&D services for established corporate clients.</li>
+<li><strong>CSR Funding Allocation:</strong> Partnering with massive tech corporations to legally route their mandatory Corporate Social Responsibility (CSR) funds directly into backing independent innovators.</li>
+<li><strong>Government Grants:</strong> Leveraging existing hardware infrastructure grants.</li>
+</ul>
+</div>
+<div class="model-card" style="border-color: var(--accent-magenta);">
+<h3>The Public Royalty Cycle</h3>
+<p style="color: var(--muted); font-size: 0.95rem; line-height: 1.7;">Independent innovators access the Lab's R&D capabilities for a fraction of traditional costs, paying the Lab back only when they succeed.</p>
+<ul class="model-list">
+<li><strong>Capped Royalties:</strong> We take a minor, strictly capped royalty or equity stake in the hardware startups we co-develop.</li>
+<li><strong>Ecosystem Autonomy:</strong> When an innovator secures massive seed funding or reaches market, their royalty returns to the Lab, funding the prototype cycle for the next common-man innovator.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- The Ask / Invest Section -->
+<section id="invest" class="ask-section">
+<div class="section-inner reveal">
+<div class="ask-box">
+<span class="section-eyebrow">THE ASK</span>
+<h2 class="ask-title">INITIATE NODE 01</h2>
+<p class="ask-desc">The vision is validated. The engineering expertise is proven. We are now seeking Pre-Seed Funding, Philanthropic Grants, and CSR Partners to acquire physical space, tooling, and establish the very first operational Idea Laboratory.</p>
+<a href="mailto:idealaboratoryhemu@gmail.com" class="btn-primary" style="display: inline-block; font-size: 1rem; padding: 1.25rem 3rem;">REQUEST THE FULL PITCH DECK</a>
+<div style="margin-top: 2rem;">
+<a href="https://hemmenthkumar.github.io" target="_blank" style="color: var(--accent-cyan); font-size: 0.8rem; letter-spacing: 0.1em; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: opacity 0.3s;" onmouseover="this.style.opacity=0.7" onmouseout="this.style.opacity=1">
+VIEW FOUNDER'S ENGINEERING PROOF OF CONCEPT <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Footer -->
+<footer style="text-align: center; padding: 2rem; border-top: 1px solid var(--border); margin-top: 4rem;">
+<div style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--fg); margin-bottom: 0.5rem;">IDEA LABORATORY</div>
+<p style="font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em;">DEMOCRATIZING R&D // EST. 2026</p>
+</footer>
+
+<script>
+// Scroll Reveal Animation
+document.addEventListener("DOMContentLoaded", () => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+});
+
+// Navbar background change on scroll
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('navbar');
+  if (window.scrollY > 50) {
+    nav.style.background = 'rgba(10, 10, 12, 0.95)';
+    nav.style.boxShadow = '0 4px 30px rgba(0,0,0,0.5)';
+  } else {
+    nav.style.background = 'rgba(10, 10, 12, 0.8)';
+    nav.style.boxShadow = 'none';
+  }
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    document.querySelector(this.getAttribute('href')).scrollIntoView({
+      behavior: 'smooth'
+    });
+  });
+});
+</script>
+</body>
+</html>
