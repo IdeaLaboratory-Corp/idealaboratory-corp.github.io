@@ -219,6 +219,22 @@ gap: 0.5rem;
 flex-shrink: 0;
 }
 
+/* LinkedIn Embed Styling */
+.linkedin-embed-wrapper {
+display: flex;
+justify-content: center;
+margin: 3rem 0;
+padding: 2rem;
+background: rgba(255,255,255,0.02);
+border: 1px solid var(--border);
+border-radius: 8px;
+}
+
+.linkedin-embed-wrapper iframe {
+max-width: 100%;
+border-radius: 4px;
+}
+
 /* Business Model */
 .model-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
 @media (min-width: 768px) { .model-grid { grid-template-columns: 1fr 1fr; } }
@@ -382,7 +398,16 @@ Inclusive Innovations is not just a competition—it's a talent discovery engine
 </div>
 </div>
 
-<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7350734229988610048?compact=1" height="399" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+<!-- LinkedIn Embed (FIXED) -->
+<div class="linkedin-embed-wrapper">
+<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7350734229988610048?compact=1" 
+        height="399" 
+        width="504" 
+        frameborder="0" 
+        allowfullscreen="" 
+        title="Embedded post">
+</iframe>
+</div>
   
 <!-- Pipeline Value Proposition -->
 <div style="margin-top: 4rem; text-align: center;">
