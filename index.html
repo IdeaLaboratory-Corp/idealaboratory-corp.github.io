@@ -86,6 +86,139 @@ section { padding: 8rem 2rem; position: relative; z-index: 5; }
 .step-title { font-size: 1.2rem; color: var(--fg); font-weight: bold; margin-bottom: 1rem; }
 .step-desc { font-size: 0.95rem; color: var(--muted); max-width: 600px; line-height: 1.7; }
 
+/* Inclusive Innovations Section */
+.inclusive-section {
+background: linear-gradient(180deg, rgba(10,10,12,0) 0%, rgba(0, 229, 204, 0.03) 50%, rgba(10,10,12,0) 100%);
+border-top: 1px solid var(--border);
+border-bottom: 1px solid var(--border);
+}
+
+.inclusive-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 3rem;
+margin-top: 3rem;
+}
+
+@media (min-width: 900px) {
+.inclusive-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.inclusive-card {
+background: var(--card);
+border: 1px solid var(--border);
+padding: 2.5rem;
+border-radius: 4px;
+transition: all 0.3s ease;
+}
+
+.inclusive-card:hover {
+border-color: var(--accent-cyan);
+box-shadow: 0 0 30px rgba(0, 229, 204, 0.1);
+}
+
+.inclusive-card.featured {
+border-color: var(--accent-magenta);
+background: linear-gradient(135deg, rgba(18,18,22,0.95), rgba(233, 48, 168, 0.05));
+}
+
+.inclusive-card h3 {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 1.8rem;
+color: var(--fg);
+margin-bottom: 0.5rem;
+letter-spacing: 0.05em;
+}
+
+.inclusive-card .subtitle {
+font-size: 0.8rem;
+color: var(--accent-cyan);
+letter-spacing: 0.15em;
+margin-bottom: 1.5rem;
+display: block;
+}
+
+.inclusive-card p {
+font-size: 0.9rem;
+color: var(--muted);
+line-height: 1.7;
+margin-bottom: 1.5rem;
+}
+
+.inclusive-stats {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 1rem;
+margin-top: 1.5rem;
+}
+
+.inclusive-stat {
+text-align: center;
+padding: 1rem;
+background: rgba(255,255,255,0.03);
+border-radius: 4px;
+}
+
+.inclusive-stat .number {
+font-family: 'Bebas Neue', sans-serif;
+font-size: 2.5rem;
+color: var(--accent-cyan);
+line-height: 1;
+}
+
+.inclusive-stat .label {
+font-size: 0.7rem;
+color: var(--muted);
+letter-spacing: 0.1em;
+margin-top: 0.25rem;
+}
+
+.project-list {
+list-style: none;
+margin-top: 1rem;
+}
+
+.project-list li {
+padding: 0.75rem 0;
+border-bottom: 1px solid var(--border);
+font-size: 0.85rem;
+color: var(--muted);
+display: flex;
+align-items: flex-start;
+gap: 0.75rem;
+}
+
+.project-list li::before {
+content: '▸';
+color: var(--accent-cyan);
+font-weight: bold;
+}
+
+.project-list li:last-child {
+border-bottom: none;
+}
+
+.confidential-notice {
+background: rgba(245, 158, 11, 0.1);
+border: 1px solid var(--accent-amber);
+padding: 1rem;
+border-radius: 4px;
+margin-top: 1.5rem;
+}
+
+.confidential-notice p {
+font-size: 0.8rem;
+color: var(--accent-amber);
+margin: 0;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+
+.confidential-notice svg {
+flex-shrink: 0;
+}
+
 /* Business Model */
 .model-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
 @media (min-width: 768px) { .model-grid { grid-template-columns: 1fr 1fr; } }
@@ -120,6 +253,7 @@ section { padding: 8rem 2rem; position: relative; z-index: 5; }
 <div class="nav-logo">IDEA LABORATORY</div>
 <div class="nav-links">
 <a href="#mission" class="nav-link">THE MISSION</a>
+<a href="#inclusive" class="nav-link">INCLUSIVE INNOVATIONS</a>
 <a href="#protocol" class="nav-link">R&D INFRASTRUCTURE</a>
 <a href="#model" class="nav-link">SUSTAINABILITY</a>
 </div>
@@ -166,6 +300,93 @@ The Indian government attempted to solve this by building AICTE-IDEA Labs nation
 <div class="crisis-text">
 <p style="margin-bottom: 1rem;"><strong>The Root Cause:</strong> Prototyping is just a byproduct of a much larger process. Anyone can rent a 3D printer, but simulating avionics, designing custom PCBs, and understanding composite material physics requires a guided R&D ecosystem.</p>
 <p>Idea Laboratory isn't a pay-for-service design agency. It is a democratization platform. We provide the <strong>deep-tech engineering infrastructure</strong> required to transform the common man's raw idea into a physics-backed, investor-ready reality.</p>
+</div>
+</div>
+</section>
+
+<!-- INCLUSIVE INNOVATIONS SECTION -->
+<section id="inclusive" class="inclusive-section">
+<div class="section-inner reveal">
+<div class="section-header">
+<span class="section-eyebrow">THE PIPELINE ENGINE</span>
+<h2 class="section-title">INCLUSIVE INNOVATIONS</h2>
+<p style="color: var(--muted); max-width: 800px; margin: 1rem auto 0; font-size: 1rem;">
+A national inter-school competition that discovers, develops, and deploys assistive technology created by students who understand disability from lived experience.
+</p>
+</div>
+
+<div class="inclusive-grid">
+<!-- Left: Program Overview -->
+<div class="inclusive-card featured">
+<h3>NATIONAL INNOVATION PIPELINE</h3>
+<span class="subtitle">PARTNERSHIP: LIGHTHOUSE LEARNING SCHOOLS</span>
+<p>
+Inclusive Innovations is not just a competition—it's a talent discovery engine. We partner with BHIS, EuroSchools, and all Lighthouse Learning institutions across India to identify students creating technology for their disabled classmates.
+</p>
+<p>
+<strong>Why this works:</strong> Kids who grow up alongside disabled peers understand their problems better than any adult engineer. They don't design <em>for</em> disability—they design <em>from</em> it.
+</p>
+<div class="inclusive-stats">
+<div class="inclusive-stat">
+<div class="number">50+</div>
+<div class="label">SCHOOLS</div>
+</div>
+<div class="inclusive-stat">
+<div class="number">10+</div>
+<div class="label">WINNING PROTOTYPES</div>
+</div>
+<div class="inclusive-stat">
+<div class="number">3</div>
+<div class="label">INCUBATION-READY</div>
+</div>
+<div class="inclusive-stat">
+<div class="number">YR2</div>
+<div class="label">COMPLETED</div>
+</div>
+</div>
+<div class="confidential-notice">
+<p>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+<strong>CONFIDENTIAL:</strong> 7+ additional winning projects under NDA. Full portfolio available to incubation partners.
+</p>
+</div>
+</div>
+
+<!-- Right: Featured Projects -->
+<div class="inclusive-card">
+<h3>YEAR 1 WINNING PROTOTYPES</h3>
+<span class="subtitle">PUBLICLY DISCLOSED PROJECTS</span>
+<ul class="project-list">
+<li>
+<div>
+<strong>Force-Feedback Walking Stick</strong>
+<div style="font-size: 0.75rem; margin-top: 0.25rem;">Haptic navigation for blind users. Vibration direction indicates obstacle vector. Maintains center of gravity.</div>
+</div>
+</li>
+<li>
+<div>
+<strong>ISL-to-Voice Wearable</strong>
+<div style="font-size: 0.75rem; margin-top: 0.25rem;">Real-time Indian Sign Language conversion to speech. Raspberry Pi + IMU sensors. Enables spontaneous conversation.</div>
+</div>
+</li>
+<li>
+<div>
+<strong>Focus-Keeping Eye Tracker</strong>
+<div style="font-size: 0.75rem; margin-top: 0.25rem;">Compact eye-tracking for ADHD/Autism support. Audible feedback when gaze deviates. WebApp already developed.</div>
+</div>
+</li>
+</ul>
+<p style="margin-top: 1.5rem; font-size: 0.85rem;">
+<strong>Post-Exam Reactivation:</strong> Student teams resume development after board exams (June 2026). Idea Laboratory provides R&D professionalization during the interim period.
+</p>
+</div>
+</div>
+
+<!-- Pipeline Value Proposition -->
+<div style="margin-top: 4rem; text-align: center;">
+<p style="color: var(--muted); max-width: 700px; margin: 0 auto; font-size: 1rem; line-height: 1.8;">
+<strong>For Incubation Partners:</strong> This pipeline delivers a steady deal flow of validated, social-impact hardware startups. Idea Laboratory handles the R&D professionalization; partners get first right of refusal on incubation-ready projects.
+</p>
 </div>
 </div>
 </section>
