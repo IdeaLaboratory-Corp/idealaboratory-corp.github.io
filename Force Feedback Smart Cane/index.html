@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORCE-FEEDBACK SMART CANE - Specification Sheet</title>
+    <style>
+        :root {
+            --bg: #f8fafc; /* Slate 50 */
+            --card-bg: #ffffff; /* White */
+            --text-main: #1e293b; /* Slate 800 */
+            --text-muted: #64748b; /* Slate 500 */
+            --border: #e2e8f0; /* Slate 200 */
+            --primary: #2563eb; /* Blue 600 */
+            --accent: #0284c7; /* Sky 600 */
+            --success: #059669; /* Emerald 600 */
+            --warning: #d97706; /* Amber 600 */
+            --font-mono: 'Courier New', Courier, monospace;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        header {
+            background: linear-gradient(135deg, rgba(37,99,235,0.05) 0%, rgba(255,255,255,0) 100%);
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header-content h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+            color: var(--text-main);
+        }
+
+        .header-content h2 {
+            font-size: 1rem;
+            color: var(--accent);
+            font-family: var(--font-mono);
+            margin-top: 0.5rem;
+            font-weight: 400;
+        }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .visual-section {
+            width: 100%;
+            height: 300px;
+            background-color: #f1f5f9;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        .visual-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid { grid-template-columns: 1fr; }
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--primary);
+            padding-left: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .spec-table th, .spec-table td {
+            text-align: left;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .spec-table th {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            width: 40%;
+            background-color: #f8fafc;
+        }
+
+        .spec-table td {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .spec-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .bom-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+        }
+
+        .bom-table th {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            font-weight: 700;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 0.75rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .bom-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .bom-table td:nth-child(1) {
+            color: var(--text-main);
+            font-weight: 500;
+            width: 35%;
+        }
+
+        .bom-table td:nth-child(4) {
+            color: var(--success);
+            font-weight: 600;
+            font-family: var(--font-mono);
+            text-align: right;
+        }
+
+        .bom-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .bom-total-row {
+            background: rgba(5, 150, 105, 0.05);
+        }
+
+        .bom-total-row td {
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1rem;
+            border-top: 2px solid var(--success);
+        }
+
+        .build-phase {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .build-phase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .build-phase-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            font-family: var(--font-mono);
+        }
+
+        .build-phase-timeline {
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-family: var(--font-mono);
+        }
+
+        .build-phase-steps {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .build-phase-steps li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .build-phase-steps li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .tools-required {
+            background: rgba(217, 119, 6, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tools-required h4 {
+            font-size: 0.85rem;
+            color: var(--warning);
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .tool-item {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .metric-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: var(--font-mono);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        .footer {
+            background: #f1f5f9;
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+        }
+
+        .tech-stack {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+        }
+        
+        .tech-tag {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .bom-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 0.5rem;
+        }
+
+        .milestone-checklist {
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .milestone-checklist h4 {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .milestone-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .milestone-check {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .sensor-diagram {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .sensor-diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <span class="badge">TRL-5 Prototype</span>
+                <h1>FORCE-FEEDBACK SMART CANE</h1>
+                <h2>Stereo ToF Obstacle Avoidance System</h2>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">DOC-ID:</div>
+                <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-main);">IL-FFC-001</div>
+                <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); margin-top:5px;">REV:</div>
+                <div style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-main);">1.0</div>
+            </div>
+        </header>
+
+        <!-- Visual Placeholder -->
+        <div class="visual-section">
+            <img src="https://raw.githubusercontent.com/HemmenthKumar/hemmenthkumar.github.io/refs/heads/main/image.png" alt="Smart Cane Concept">
+        </div>
+
+        <div class="content-grid">
+            <!-- Left Column: Details -->
+            <div class="main-content">
+                <h3>Executive Summary</h3>
+                <p>
+                    Standard white canes provide tactile ground feedback but offer no warning of obstacles at knee-to-head height. Blind users must sweep repeatedly, slowing navigation and missing overhead hazards entirely.
+                </p>
+                <p>
+                    The <strong>Force-Feedback Smart Cane</strong> integrates stereo Time-of-Flight (ToF) sensors with a 3-zone haptic handle, providing real-time directional obstacle warnings. Users receive intuitive left-center-right vibration feedback, enabling faster, safer independent navigation.
+                </p>
+
+                <h3>Sensor & Haptic Architecture</h3>
+                <p>
+                    <strong>Stereo VL53L1X ToF Sensors:</strong> Mounted at 15° toe-in angle on handle ends, providing continuous coverage from 20cm to 4 meters. I2C address multiplexing enables dual-sensor operation on single ESP32.
+                </p>
+                <p>
+                    <strong>3-Zone ERM Haptic Array:</strong> Three 10mm ERM motors embedded in handle grip (Left, Center, Right). Directional vibration indicates obstacle location; intensity indicates proximity.
+                </p>
+                <div class="tech-stack">
+                    <span class="tech-tag">VL53L1X ToF ×2</span>
+                    <span class="tech-tag">ESP32-WROOM</span>
+                    <span class="tech-tag">ERM 10mm ×3</span>
+                    <span class="tech-tag">AO3400 MOSFET</span>
+                    <span class="tech-tag">18650 Li-Ion</span>
+                </div>
+
+                <br>
+                <h3>Technical Specifications</h3>
+                <table class="spec-table">
+                    <tbody>
+                        <tr>
+                            <th>Sensor Type</th>
+                            <td>VL53L1X Time-of-Flight (ToF)</td>
+                        </tr>
+                        <tr>
+                            <th>Sensor Quantity</th>
+                            <td>2 (Stereo Configuration)</td>
+                        </tr>
+                        <tr>
+                            <th>Detection Range</th>
+                            <td>0.04m – 4.0m per sensor</td>
+                        </tr>
+                        <tr>
+                            <th>Field of View</th>
+                            <td>25° per sensor (15° toe-in)</td>
+                        </tr>
+                        <tr>
+                            <th>Haptic Motors</th>
+                            <td>3× ERM 10mm Coin Vibrators</td>
+                        </tr>
+                        <tr>
+                            <th>Motor Driver</th>
+                            <td>AO3400 N-MOSFET (PWM)</td>
+                        </tr>
+                        <tr>
+                            <th>Microcontroller</th>
+                            <td>ESP32-WROOM-32 (Dual-Core)</td>
+                        </tr>
+                        <tr>
+                            <th>Battery</th>
+                            <td>2× 18650 Li-Ion (3.7V 2000mAh)</td>
+                        </tr>
+                        <tr>
+                            <th>Battery Life</th>
+                            <td>6-8 hours (intermittent haptics)</td>
+                        </tr>
+                        <tr>
+                            <th>Charging</th>
+                            <td>USB-C via TP4056 Module</td>
+                        </tr>
+                        <tr>
+                            <th>Handle Diameter</th>
+                            <td>35-40mm (Standard Grip)</td>
+                        </tr>
+                        <tr>
+                            <th>Operating Temp</th>
+                            <td>0°C to 45°C</td>
+                        </tr>
+                        <tr>
+                            <th>Water Resistance</th>
+                            <td>IP54 (Splash Protected)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- HOW TO BUILD IT SECTION -->
+                <h3>How To Build It</h3>
+                <p>Complete build process from components to functional prototype. Estimated total build time: 2-3 weeks for V1 prototype.</p>
+                
+                <!-- Tools Required -->
+                <div class="tools-required">
+                    <h4>⚠ Tools & Equipment Required</h4>
+                    <div class="tools-grid">
+                        <div class="tool-item">▸ Soldering Station (60W+)</div>
+                        <div class="tool-item">▸ 3D Printer (Handle Mount)</div>
+                        <div class="tool-item">▸ Multimeter</div>
+                        <div class="tool-item">▸ Wire Strippers & Cutters</div>
+                        <div class="tool-item">▸ Heat Gun / Heat Shrink</div>
+                        <div class="tool-item">▸ ESP32 Programmer</div>
+                        <div class="tool-item">▸ Hot Glue Gun</div>
+                        <div class="tool-item">▸ Screwdriver Set</div>
+                    </div>
+                </div>
+
+                <!-- Build Phases -->
+                <div class="build-phase">
+                    <div class="build-phase-header">
+                        <span class="build-phase-title">PHASE 1: Sensor Integration</span>
+                        <span class="build-phase-timeline">Week 1</span>
+                    </div>
+                    <ul class="build-phase-steps">
+                        <li>Wire VL53L1X sensors to ESP32 (I2C: SDA, SCL, VIN, GND)</li>
+                        <li>Set unique I2C addresses (0x54 for Left, 0x29 for Right)</li>
+                        <li>Test sensor detection with Arduino VL53L1X library</li>
+                        <li>3D print sensor mounts with 15° toe-in angle</li>
+                        <li>Mount sensors on handle ends with acrylic protective windows</li>
+                    </ul>
+                </div>
+
+                <div class="build-phase">
+                    <div class="build-phase-header">
+                        <span class="build-phase-title">PHASE 2: Haptic Motor Installation</span>
+                        <span class="build-phase-timeline">Week 1-2</span>
+                    </div>
+                    <ul class="build-phase-steps">
+                        <li>Position 3× ERM motors inside handle (Left, Center, Right)</li>
+                        <li>Solder motors to AO3400 MOSFET drain pins</li>
+                        <li>Connect MOSFET gates to ESP32 GPIO (PWM-capable pins)</li>
+                        <li>Add 1N4148 flyback diodes across motor terminals</li>
+                        <li>Test vibration intensity with PWM (0-255 range)</li>
+                    </ul>
+                </div>
+
+                <div class="build-phase">
+                    <div class="build-phase-header">
+                        <span class="build-phase-title">PHASE 3: Power System</span>
+                        <span class="build-phase-timeline">Week 2</span>
+                    </div>
+                    <ul class="build-phase-steps">
+                        <li>Wire 2× 18650 batteries in parallel (3.7V, 4000mAh total)</li>
+                        <li>Connect TP4056 charging module to battery terminals</li>
+                        <li>Add USB-C charging port to handle base</li>
+                        <li>Install power switch between battery and ESP32 VIN</li>
+                        <li>Verify voltage output (3.7V-4.2V range)</li>
+                    </ul>
+                </div>
+
+                <div class="build-phase">
+                    <div class="build-phase-header">
+                        <span class="build-phase-title">PHASE 4: Firmware Development</span>
+                        <span class="build-phase-timeline">Week 2-3</span>
+                    </div>
+                    <ul class="build-phase-steps">
+                        <li>Flash ESP32 with custom obstacle detection firmware</li>
+                        <li>Configure sensor sampling rate (10-20Hz)</li>
+                        <li>Implement distance threshold logic (50cm, 100cm, 200cm)</li>
+                        <li>Map distance zones to motor intensity (PWM 100-255)</li>
+                        <li>Add low-battery warning vibration pattern</li>
+                    </ul>
+                </div>
+
+                <div class="build-phase">
+                    <div class="build-phase-header">
+                        <span class="build-phase-title">PHASE 5: User Testing & Calibration</span>
+                        <span class="build-phase-timeline">Week 3</span>
+                    </div>
+                    <ul class="build-phase-steps">
+                        <li>Test with blindfolded users in controlled environment</li>
+                        <li>Calibrate vibration intensity for comfortable feedback</li>
+                        <li>Verify detection range accuracy (measure vs. reported)</li>
+                        <li>Test outdoor performance (sunlight interference)</li>
+                        <li>Iterate firmware based on user feedback</li>
+                    </ul>
+                </div>
+
+
+                <!-- BILL OF MATERIALS SECTION -->
+                <h3>Bill of Materials (BOM)</h3>
+                <p>Estimated component costs for single-unit V1 prototype production.</p>
+                
+                <table class="bom-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Specification</th>
+                            <th>Qty</th>
+                            <th>Cost (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Toffee Distance Sensors</td>
+                            <td>VL53L1X Long-Range</td>
+                            <td>2</td>
+                            <td>1,000</td>
+                        </tr>
+                        <tr>
+                            <td>ERM Vibration Motors</td>
+                            <td>10mm Coin 3V</td>
+                            <td>3</td>
+                            <td>240</td>
+                        </tr>
+                        <tr>
+                            <td>Microcontroller</td>
+                            <td>ESP32-WROOM-32</td>
+                            <td>1</td>
+                            <td>350</td>
+                        </tr>
+                        <tr>
+                            <td>MOSFET Drivers</td>
+                            <td>AO3400 N-Channel</td>
+                            <td>3</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>Battery Cells</td>
+                            <td>18650 Li-Ion 2000mAh</td>
+                            <td>2</td>
+                            <td>400</td>
+                        </tr>
+                        <tr>
+                            <td>Charging Module</td>
+                            <td>TP4056 USB-C</td>
+                            <td>1</td>
+                            <td>50</td>
+                        </tr>
+                        <tr>
+                            <td>Flyback Diodes</td>
+                            <td>1N4148</td>
+                            <td>3</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>PCB/Perfboard</td>
+                            <td>Prototype Board</td>
+                            <td>1</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>Wiring & Connectors</td>
+                            <td>Silicone Wire 22AWG</td>
+                            <td>1</td>
+                            <td>150</td>
+                        </tr>
+                        <tr>
+                            <td>3D Printed Handle</td>
+                            <td>PLA/PETG Custom Mount</td>
+                            <td>1</td>
+                            <td>500</td>
+                        </tr>
+                        <tr>
+                            <td>Acrylic Windows</td>
+                            <td>2mm Clear Protective</td>
+                            <td>2</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>Fasteners & Adhesive</td>
+                            <td>Screws, Hot Glue, Tape</td>
+                            <td>1</td>
+                            <td>150</td>
+                        </tr>
+                        <tr class="bom-total-row">
+                            <td colspan="3">TOTAL ESTIMATED COST</td>
+                            <td>₹3,080</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="bom-note">* Costs based on Indian market pricing (2026). Does not include labor, R&D, or tooling. Volume production (100+ units) estimated at ₹1,500 per unit.</p>
+
+            </div>
+
+            <!-- Right Column: Key Metrics -->
+            <div class="sidebar">
+                <h3>Performance Metrics</h3>
+                <div class="metrics-grid" style="grid-template-columns: 1fr;">
+                    <div class="metric-card">
+                        <span class="metric-value">4.0 M</span>
+                        <span class="metric-label">Max Detection Range</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-value">20 CM</span>
+                        <span class="metric-label">Min Detection Range</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-value">6-8 HRS</span>
+                        <span class="metric-label">Battery Life</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-value">10-20 HZ</span>
+                        <span class="metric-label">Sensor Sampling Rate</span>
+                    </div>
+                </div>
+
+                <div class="sensor-diagram">
+                    <h4 style="color: var(--accent); font-size: 0.85rem; margin-bottom: 0.5rem; font-family: var(--font-mono);">STEREO SENSOR COVERAGE</h4>
+                    <svg viewBox="0 0 200 150" style="width: 100%; max-width: 250px;">
+                        <!-- Handle -->
+                        <rect x="75" y="20" width="50" height="30" fill="none" stroke="#0284c7" stroke-width="2"/>
+                        <!-- Left Sensor -->
+                        <circle cx="80" cy="35" r="5" fill="#059669"/>
+                        <!-- Right Sensor -->
+                        <circle cx="120" cy="35" r="5" fill="#059669"/>
+                        <!-- Left Cone -->
+                        <path d="M80 35 L40 100 L120 100 Z" fill="rgba(5, 150, 105, 0.1)" stroke="#059669" stroke-width="1"/>
+                        <!-- Right Cone -->
+                        <path d="M120 35 L80 100 L160 100 Z" fill="rgba(5, 150, 105, 0.1)" stroke="#059669" stroke-width="1"/>
+                        <!-- Overlap Zone -->
+                        <path d="M80 100 L100 100 L100 60 Z" fill="rgba(37, 99, 235, 0.2)" stroke="#2563eb" stroke-width="1"/>
+                        <!-- Labels -->
+                        <text x="50" y="120" fill="#64748b" font-size="10" font-family="monospace">LEFT</text>
+                        <text x="150" y="120" fill="#64748b" font-size="10" font-family="monospace">RIGHT</text>
+                        <text x="90" y="140" fill="#2563eb" font-size="10" font-family="monospace">CENTER</text>
+                    </svg>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">15° toe-in angle eliminates close-range blind spot</p>
+                </div>
+
+                <div style="background: rgba(5, 150, 105, 0.05); border: 1px solid var(--success); padding: 1rem; border-radius: 6px;">
+                    <h4 style="color: var(--success); font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase;">Project Status</h4>
+                    <p style="font-size: 0.85rem; margin-bottom: 0; color: #064e3b;">
+                        In Development.
+                    </p>
+                </div>
+                
+                <br>
+                <a href="https://github.com/hemmenthkumar" target="_blank" class="btn" style="display:block; text-align:center;">
+                    View Source Code & CAD
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>
+                <strong>IDEA LABORATORY</strong> | Public Access Deep-Tech R&D<br>
+                <span style="font-size: 0.75rem; opacity: 0.7;">Democratizing Innovation // Est. 2026</span>
+            </div>
+            <div style="text-align: right;">
+                Contact: idealaboratoryhemu@gmail.com<br>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem;">CONFIDENTIAL DRAFT</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
